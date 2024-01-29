@@ -7,3 +7,11 @@ type neuralNetConfig struct {
 	numEpochs     int
 	learningRate  float64
 }
+
+type neuralNet struct {
+	config  neuralNetConfig
+	wHidden *mat.Dense
+	bHidden *mat.Dense
+	wOut    *mat.Dense
+	bOut    *mat.Dense
+}
