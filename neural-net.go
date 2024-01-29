@@ -3,6 +3,8 @@ package main
 import (
 	"math/rand"
 	"time"
+
+	"gonum.org/v1/gonum/mat"
 )
 
 type neuralNetConfig struct {
