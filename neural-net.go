@@ -15,3 +15,7 @@ type neuralNet struct {
 	wOut    *mat.Dense
 	bOut    *mat.Dense
 }
+
+func newNetwork(config neuralNetConfig) *neuralNet {
+	return &neuralNet{config: config}
+}
