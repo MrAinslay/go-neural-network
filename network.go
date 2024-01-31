@@ -97,6 +97,49 @@ func mnistTrain(net *Network) {
 	fmt.Printf("\nTime taken to train: %s\n", elapsed)
 }
 
+func mnistPredict(net *Network) {
+	t1 := time.Now()
+	checkFile, _ := os.Open("mnist_dataset/mnist_test.csv")
+	defer checkFile.Close()
+
+	score := 0
+	r := csv.NewReader(bufio.NewReader(checkFile))
+	for {
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+
+		inputs := make([]float64, net.inputs)
+		for i := range inputs {
+			if i == 0 {
+				inputs[i] = 1.0
+			}
+			x, _ := strconv.ParseFloat(record[i], 64)
+			inputs[i] = (x / 255.0 * 0.99) + 0.01
+		}
+
+		outputs := net.Predict(inputs)
+		best := 0
+		highest := 0.0
+		for i := 0; i < net.outputs; i++ {
+			if outputs.At(i, 0) > highest {
+				best = i
+				highest = outputs.At(i, 0)
+			}
+		}
+
+		target, _ := strconv.Atoi(record[0])
+		if best == target {
+			score++
+		}
+	}
+
+	elapsed := time.Since(t1)
+	fmt.Printf("Time taken to check: %s\n", elapsed)
+	fmt.Println("score", score)
+}
+
 func sigmoid(r, c int, z float64) float64 {
 	return 1.0 / (1 + math.Exp(-1*z))
 }
