@@ -27,3 +27,10 @@ func scale(s float64, m mat.Matrix) mat.Matrix {
 	o.Scale(s, m)
 	return o
 }
+
+func multiply(m, n mat.Matrix) mat.Matrix {
+	r, c := m.Dims()
+	o := mat.NewDense(r, c, nil)
+	o.MulElem(m, n)
+	return o
+}
