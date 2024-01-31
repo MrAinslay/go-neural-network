@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"encoding/csv"
 	"fmt"
+	"image"
+	"image/png"
 	"io"
 	"math"
 	"math/rand"
@@ -138,6 +140,38 @@ func mnistPredict(net *Network) {
 	elapsed := time.Since(t1)
 	fmt.Printf("Time taken to check: %s\n", elapsed)
 	fmt.Println("score", score)
+}
+
+func dataFromImage(filePath string) (pixels []float64) {
+	// read the file
+	imgFile, err := os.Open(filePath)
+	defer imgFile.Close()
+	if err != nil {
+		fmt.Println("Cannot read file:", err)
+	}
+	img, err := png.Decode(imgFile)
+	if err != nil {
+		fmt.Println("Cannot decode file:", err)
+	}
+
+	// create a grayscale image
+	bounds := img.Bounds()
+	gray := image.NewGray(bounds)
+
+	for x := 0; x < bounds.Max.X; x++ {
+		for y := 0; y < bounds.Max.Y; y++ {
+			var rgba = img.At(x, y)
+			gray.Set(x, y, rgba)
+		}
+	}
+	// make a pixel array
+	pixels = make([]float64, len(gray.Pix))
+	// populate the pixel array subtract Pix from 255 because
+	// that's how the MNIST database was trained (in reverse)
+	for i := 0; i < len(gray.Pix); i++ {
+		pixels[i] = (float64(255-gray.Pix[i]) / 255.0 * 0.99) + 0.01
+	}
+	return
 }
 
 func sigmoid(r, c int, z float64) float64 {
