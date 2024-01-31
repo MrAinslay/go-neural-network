@@ -41,3 +41,10 @@ func add(m, n mat.Matrix) mat.Matrix {
 	o.Add(m, n)
 	return o
 }
+
+func subtract(m, n mat.Matrix) mat.Matrix {
+	r, c := m.Dims()
+	o := mat.NewDense(r, c, nil)
+	o.Sub(m, n)
+	return o
+}
