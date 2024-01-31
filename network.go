@@ -1,7 +1,15 @@
 package main
 
 import (
+	"bufio"
+	"encoding/csv"
+	"fmt"
+	"io"
 	"math"
+	"math/rand"
+	"os"
+	"strconv"
+	"time"
 
 	"gonum.org/v1/gonum/mat"
 )
@@ -53,6 +61,40 @@ func (net Network) Train(inputData []float64, targetData []float64) {
 	//backpropagate
 	net.outputWeights = add(net.outputWeights, scale(net.learningRate, dot(multiply(outputErrors, sigmoidPrime(finalOutputs)), hiddenOutputs.T()))).(*mat.Dense)
 	net.hiddenWeights = add(net.hiddenWeights, scale(net.learningRate, dot(multiply(hiddenErrors, sigmoidPrime(hiddenOutputs)), inputs.T()))).(*mat.Dense)
+}
+
+func mnistTrain(net *Network) {
+	rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
+	t1 := time.Now()
+
+	for epochs := 0; epochs < 5; epochs++ {
+		testFile, _ := os.Open("mnist_dataset/mnist_train.csv")
+		r := csv.NewReader(bufio.NewReader(testFile))
+		for {
+			record, err := r.Read()
+			if err == io.EOF {
+				break
+			}
+
+			inputs := make([]float64, net.inputs)
+			for i := range inputs {
+				x, _ := strconv.ParseFloat(record[i], 64)
+				inputs[i] = (x / 255.0 * 0.99) + 0.01
+			}
+
+			targets := make([]float64, 10)
+			for i := range targets {
+				targets[i] = 0.01
+			}
+			x, _ := strconv.Atoi(record[0])
+			targets[x] = 0.99
+
+			net.Train(inputs, targets)
+		}
+		testFile.Close()
+	}
+	elapsed := time.Since(t1)
+	fmt.Printf("\nTime taken to train: %s\n", elapsed)
 }
 
 func sigmoid(r, c int, z float64) float64 {
