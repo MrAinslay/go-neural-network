@@ -10,3 +10,5 @@ type Network struct {
 	outputWeights *mat.Dense
 	learningRate  float64
 }
+
+func CreateNetwork()
