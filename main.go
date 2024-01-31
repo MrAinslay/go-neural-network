@@ -20,3 +20,10 @@ func apply(fn func(i, j int, v float64) float64, m mat.Matrix) mat.Matrix {
 	o.Apply(fn, m)
 	return o
 }
+
+func scale(s float64, m mat.Matrix) mat.Matrix {
+	r, c := m.Dims()
+	o := mat.NewDense(r, c, nil)
+	o.Scale(s, m)
+	return o
+}
