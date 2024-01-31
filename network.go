@@ -68,7 +68,7 @@ func mnistTrain(net *Network) {
 	t1 := time.Now()
 
 	for epochs := 0; epochs < 5; epochs++ {
-		testFile, _ := os.Open("mnist_dataset/mnist_train.csv")
+		testFile, _ := os.Open("mnist_dataset/mnist_test.csv")
 		r := csv.NewReader(bufio.NewReader(testFile))
 		for {
 			record, err := r.Read()

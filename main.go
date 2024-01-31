@@ -1,6 +1,9 @@
 package main
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+)
 
 func main() {
 	/*
@@ -24,6 +27,6 @@ func main() {
 		load(&net)
 		mnistPredict(&net)
 	default:
-		//do nothing
+		fmt.Println("Do nothing")
 	}
 }

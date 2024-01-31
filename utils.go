@@ -1,6 +1,8 @@
 package main
 
-import "os"
+import (
+	"os"
+)
 
 func save(net Network) {
 	h, err := os.Create("data/hweights.model")
@@ -8,7 +10,6 @@ func save(net Network) {
 		net.hiddenWeights.MarshalBinaryTo(h)
 	}
 	defer h.Close()
-
 	o, err := os.Create("data/oweights.model")
 	if err == nil {
 		net.outputWeights.MarshalBinaryTo(o)
@@ -23,7 +24,6 @@ func load(net *Network) {
 		net.hiddenWeights.UnmarshalBinaryFrom(h)
 	}
 	defer h.Close()
-
 	o, err := os.Open("data/oweights.model")
 	if err == nil {
 		net.outputWeights.Reset()
