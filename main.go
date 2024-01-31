@@ -13,3 +13,10 @@ func dot(m, n mat.Matrix) mat.Matrix {
 	o.Product(m, n)
 	return o
 }
+
+func apply(fn func(i, j int, v float64) float64, m mat.Matrix) mat.Matrix {
+	r, c := m.Dims()
+	o := mat.NewDense(r, c, nil)
+	o.Apply(fn, m)
+	return o
+}
