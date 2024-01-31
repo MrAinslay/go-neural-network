@@ -34,3 +34,10 @@ func multiply(m, n mat.Matrix) mat.Matrix {
 	o.MulElem(m, n)
 	return o
 }
+
+func add(m, n mat.Matrix) mat.Matrix {
+	r, c := m.Dims()
+	o := mat.NewDense(r, c, nil)
+	o.Add(m, n)
+	return o
+}
