@@ -11,4 +11,11 @@ type Network struct {
 	learningRate  float64
 }
 
-func CreateNetwork()
+func CreateNetwork(input, hidden, output int, rate float64) (net Network) {
+	net = Network{
+		inputs:       input,
+		hiddens:      hidden,
+		outputs:      output,
+		learningRate: rate,
+	}
+}

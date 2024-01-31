@@ -1,6 +1,11 @@
 package main
 
-import "gonum.org/v1/gonum/mat"
+import (
+	"math"
+
+	"gonum.org/v1/gonum/mat"
+	"gonum.org/v1/gonum/stat/distuv"
+)
 
 func dot(m, n mat.Matrix) mat.Matrix {
 	r, _ := m.Dims()
@@ -53,4 +58,17 @@ func addScalar(i float64, m mat.Matrix) mat.Matrix {
 	}
 	n := mat.NewDense(r, c, a)
 	return add(m, n)
+}
+
+func randomArray(size int, v float64) (data []float64) {
+	dist := distuv.Uniform{
+		Min: -1 / math.Sqrt(v),
+		Max: 1 / math.Sqrt(v),
+	}
+
+	data = make([]float64, size)
+	for i := 0; i < size; i++ {
+		data[i] = dist.Rand()
+	}
+	return
 }
