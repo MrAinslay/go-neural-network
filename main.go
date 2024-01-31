@@ -48,3 +48,13 @@ func subtract(m, n mat.Matrix) mat.Matrix {
 	o.Sub(m, n)
 	return o
 }
+
+func addScalar(i float64, m mat.Matrix) mat.Matrix {
+	r, c := m.Dims()
+	a := make([]float64, r*c)
+	for x := 0; x < r*c; x++ {
+		a[x] = i
+	}
+	n := mat.NewDense(r, c, a)
+	return add(m, n)
+}
