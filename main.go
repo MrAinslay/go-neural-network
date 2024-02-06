@@ -21,7 +21,7 @@ func main() {
 	// 100 hidden nodes - an arbitrary number
 	// 10 outputs - digits 0 to 9
 	// 0.1 is the learning rate
-	net := CreateNetwork(784, 200, 10, 0.1)
+	net := CreateNetwork(784, 250, 10, 0.08)
 
 	mnist := flag.String("mnist", "", "Either train or predict to evaluate neural network")
 	file := flag.String("file", "", "File name of 28 x 28 PNG file to evaluate")
